@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Marco-Polo Game - Jugadores</title>
+		<link rel="stylesheet" href="index.css" />
+	</head>
+	<body>
+		<section id="gameSection">
+			<h1>Marco-Polo Game</h1>
+			<h2>Jugadores registrados:</h2>
+
+			<div id="playersList"></div>
+
+			<button id="playButton" disabled>Iniciar juego</button>
+		</section>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			const socket = io('http://localhost:5050');
+
+			const playerName = localStorage.getItem('playerName');
+
+			if (playerName) {
+				socket.emit('newPlayer', playerName);
+			}
+
+			socket.on('updatePlayers', (players) => {
+				const playersList = document.getElementById('playersList');
+				playersList.innerHTML = '';
+
+				players.forEach((player) => {
+					const playerElement = document.createElement('p');
+					playerElement.textContent = player.name;
+					playersList.appendChild(playerElement);
+				});
+
+				const playButton = document.getElementById('playButton');
+				if (players.length >= 3) {
+					playButton.disabled = false;
+				} else {
+					playButton.disabled = true;
+				}
+			});
+
+			document.getElementById('playButton').addEventListener('click', () => {
+				alert('¡El juego ha comenzado!');
+			});
+		</script>
+		<script src="index.js"></script>
+	</body>
+</html>

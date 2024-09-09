@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Marco-Polo Game - Iniciar</title>
+		<link rel="stylesheet" href="index.css" />
+	</head>
+	<body>
+		<section id="startSection">
+			<h1>Marco-Polo Game</h1>
+
+			<input type="text" id="playerNameInput" placeholder="Ingresa tu nombre" />
+			<button id="saveAndPlayButton">Unirme</button>
+		</section>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			const socket = io('http://localhost:5050');
+
+			document.getElementById('saveAndPlayButton').addEventListener('click', () => {
+				const playerName = document.getElementById('playerNameInput').value;
+
+				if (playerName) {
+					socket.emit('newPlayer', playerName);
+					localStorage.setItem('playerName', playerName);
+					window.location.href = 'game.html';
+				} else {
+					alert('Por favor, ingresa tu nombre antes de continuar.');
+				}
+			});
+		</script>
+		<script src="index.js"></script>
+	</body>
+</html>

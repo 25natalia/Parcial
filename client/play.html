@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Marco-Polo Game</title>
+		<link rel="stylesheet" href="play.css" />
+	</head>
+	<body>
+		<section id="gameSection">
+			<h1>Marco-Polo Game</h1>
+			<h2 id="nicknameDisplay"></h2>
+			<button id="actionButton"></button>
+		</section>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			const socket = io('http://localhost:5050');
+			const playerName = localStorage.getItem('playerName');
+
+			// Enviar el nombre del jugador al servidor
+			if (playerName) {
+				socket.emit('newPlayer', playerName);
+			}
+
+			// Escuchar la asignación de roles desde el servidor
+			socket.on('assignRole', (role) => {
+				const nicknameDisplay = document.getElementById('nicknameDisplay');
+				const actionButton = document.getElementById('actionButton');
+
+				// Mostrar el rol asignado al jugador
+				if (role === 'MARCO') {
+					nicknameDisplay.textContent = `Tú eres "MARCO"`;
+					actionButton.textContent = 'GRITAR MARCO';
+				} else if (role === 'POLO') {
+					nicknameDisplay.textContent = `Tú eres "POLO"`;
+					actionButton.textContent = 'GRITAR POLO';
+				} else if (role === 'POLO ESPECIAL') {
+					nicknameDisplay.textContent = `Tú eres "POLO" especial`;
+					actionButton.textContent = 'GRITAR POLO';
+				}
+
+				// Mostrar el botón y asignar la acción correspondiente
+				actionButton.style.display = 'block';
+				actionButton.addEventListener('click', () => {
+					socket.emit('action', role);
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+body {
+	font-family: Arial, sans-serif;
+	text-align: center;
+	margin-top: 50px;
+}
+
+input {
+	padding: 10px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	background-color: rgba(95, 158, 160, 0.529);
+	border-style: none;
+	border-radius: 20px;
+}
+
+button {
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	background-color: cadetblue;
+	border-style: none;
+	border-radius: 20px;
+	color: white;
+}
+
+#joinSection,
+#gameSection {
+	padding: 20px;
+	display: inline-block;
+	border-radius: 10px;
+}
+
+h1 {
+	margin-bottom: 20px;
+}
